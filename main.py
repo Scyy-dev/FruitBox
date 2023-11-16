@@ -36,7 +36,7 @@ db = {
 
 # === Team-Specific Operations
 
-@app.get("/fruit_teams/teams/{team_id}/points", tags=["FruitTeams", "Team-Specific Operations"])
+@app.get("/fruitteams/teams/{team_id}/points", tags=["FruitTeams", "Team-Specific Operations"])
 async def get_team_points(
     team_id: Annotated[str, Path(pattern=TEAM_ID_REGEX)]
 ):
@@ -47,21 +47,21 @@ async def get_team_points(
 
     return { "points": point_total }
 
-@app.get("/fruit_teams/teams/{team_id}/members", tags=["FruitTeams"])
+@app.get("/fruitteams/teams/{team_id}/members", tags=["FruitTeams"])
 async def get_team_members(
     team_id: Annotated[str, Path(pattern=TEAM_ID_REGEX)]
 ):
     team_members: dict = db[team_id]["members"]
     return { "members": team_members.keys }
 
-@app.get("/fruit_teams/teams/{team_id}/prefix", tags=["FruitTeams"])
+@app.get("/fruitteams/teams/{team_id}/prefix", tags=["FruitTeams"])
 async def get_team_prefix(
     team_id: Annotated[str, Path(pattern=TEAM_ID_REGEX)]
 ):
     prefix = db[team_id]["prefix"]
     return { "prefix": prefix }
 
-@app.put("/fruit_teams/teams/{team_id}/{player_uuid}", tags=["FruitTeams"])
+@app.put("/fruitteams/teams/{team_id}/{player_uuid}", tags=["FruitTeams"])
 async def add_team_member(
     team_id: Annotated[str, Path(pattern=TEAM_ID_REGEX)],
     player_uuid: Annotated[str, Path(pattern=PLAYER_UUID_REGEX)]
@@ -71,21 +71,21 @@ async def add_team_member(
         raise PLAYER_ALREADY_EXISTS
     return {"Result": "Success"}
 
-@app.delete("/fruit_teams/teams/{team_id}/{player_uuid}", tags=["FruitTeams"])
+@app.delete("/fruitteams/teams/{team_id}/{player_uuid}", tags=["FruitTeams"])
 async def remove_team_member(
     team_id: Annotated[str, Path(pattern=TEAM_ID_REGEX)],
     player_uuid: Annotated[str, Path(pattern=PLAYER_UUID_REGEX)]
 ):
     raise NOT_IMPLEMENTED
 
-@app.get("/fruit_teams/teams/{team_id}/{player_uuid}", tags=["FruitTeams"])
+@app.get("/fruitteams/teams/{team_id}/{player_uuid}", tags=["FruitTeams"])
 async def get_team_member_points(
     team_id: Annotated[str, Path(pattern=TEAM_ID_REGEX)],
     player_uuid: Annotated[str, Path(pattern=PLAYER_UUID_REGEX)]
 ):
     return NOT_IMPLEMENTED
 
-@app.patch("/fruit_teams/teams/{team_id}/{player_uuid}/{points}", tags=["FruitTeams"])
+@app.patch("/fruitteams/teams/{team_id}/{player_uuid}/{points}", tags=["FruitTeams"])
 async def set_team_member_points(
     team_id: Annotated[str, Path(pattern=TEAM_ID_REGEX)],
     player_uuid: Annotated[str, Path(pattern=PLAYER_UUID_REGEX)],
@@ -96,20 +96,20 @@ async def set_team_member_points(
 
 # === Team Management ===
 
-@app.post("/fruit_teams/teams/{team_id}", tags=["FruitTeams"])
+@app.post("/fruitteams/teams/{team_id}", tags=["FruitTeams"])
 async def create_team(
     team_id: Annotated[str, Path(pattern=TEAM_ID_REGEX)],
     prefix: Annotated[str, Query(pattern=TEAM_PREFIX_REGEX)]
 ):
     return NOT_IMPLEMENTED
 
-@app.get("/fruit_teams/random_team/{player_uuid}", tags=["FruitTeams"])
+@app.get("/fruitteams/random_team/{player_uuid}", tags=["FruitTeams"])
 async def add_to_random_team(
     player_uuid: Annotated[str, Path(pattern=PLAYER_UUID_REGEX)]
 ):
     return NOT_IMPLEMENTED
 
-@app.delete("/fruit_teams/teams/{team_id}", tags=["FruitTeams"])
+@app.delete("/fruitteams/teams/{team_id}", tags=["FruitTeams"])
 async def delete_team(
     team_id: Annotated[str, Path(pattern=TEAM_ID_REGEX)]
 ):
@@ -117,10 +117,10 @@ async def delete_team(
 
 # === Leaderboards ===
 
-@app.get("/fruit_teams/leaderboard/top_10_teams", tags=["FruitTeams"])
+@app.get("/fruitteams/leaderboard/top_10_teams", tags=["FruitTeams"])
 async def get_top_10_teams():
     return NOT_IMPLEMENTED
 
-@app.get("/fruit_teams/leaderboard/top_10_players", tags=["FruitTeams"])
+@app.get("/fruitteams/leaderboard/top_10_players", tags=["FruitTeams"])
 async def get_top_10_players():
     return NOT_IMPLEMENTED
