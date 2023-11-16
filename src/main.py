@@ -52,6 +52,7 @@ async def get_team_members(
     team_id: Annotated[str, Path(pattern=TEAM_ID_REGEX)]
 ):
     team_members: dict = db[team_id]["members"]
+    
     return { "members": list(team_members.keys()) }
 
 @app.get("/fruit_teams/teams/{team_id}/prefix", tags=["FruitTeams"])
