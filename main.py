@@ -5,8 +5,8 @@ app = FastAPI()
 
 # === Regex Patterns === 
 PLAYER_UUID_REGEX = "^[a-f0-9]{32}$"
-TEAM_ID_REGEX = "^[a-zA-Z]\\w{4,31}$"
-TEAM_PREFIX_REGEX = "^[a-zA-Z]\\w{1,5}$"
+TEAM_ID_REGEX = "^[a-zA-Z][a-zA-Z0-9]{4,31}$"
+TEAM_PREFIX_REGEX = "^[a-zA-Z][a-zA-Z0-9]{1,5}$"
 
 # === Errors ===
 NOT_IMPLEMENTED = HTTPException(status_code=500, detail="Endpoint not implemented")
