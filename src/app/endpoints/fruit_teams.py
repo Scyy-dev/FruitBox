@@ -1,10 +1,9 @@
 from typing import Annotated
-from fastapi import FastAPI, HTTPException, Path, Query
+from fastapi import APIRouter, HTTPException, Path, Query
 
-app = FastAPI()
+from ..constants import PLAYER_UUID_REGEX
 
 # === Regex Patterns === 
-PLAYER_UUID_REGEX = "^[a-f0-9]{32}$"
 TEAM_ID_REGEX = "^[a-zA-Z]\\w{4,31}$"
 TEAM_PREFIX_REGEX = "^[a-zA-Z]\\w{1,5}$"
 
@@ -12,7 +11,11 @@ TEAM_PREFIX_REGEX = "^[a-zA-Z]\\w{1,5}$"
 NOT_IMPLEMENTED = HTTPException(status_code=500, detail="Endpoint not implemented")
 PLAYER_ALREADY_EXISTS = HTTPException(status_code=404, detail="Player already exists")
 
-# === Other Stuff ===
+# === FastAPI Router ===
+router = APIRouter(
+    prefix="/fruit_teams",
+    tags=["fruit_teams"]
+)
 
 # Random UUIDs for testing
 db = {
@@ -36,7 +39,7 @@ db = {
 
 # === Team-Specific Operations
 
-@app.get("/fruit_teams/teams/{team_id}/points", tags=["FruitTeams", "Team-Specific Operations"])
+@router.get("/fruit_teams/teams/{team_id}/points")
 async def get_team_points(
     team_id: Annotated[str, Path(pattern=TEAM_ID_REGEX)]
 ):
@@ -47,7 +50,7 @@ async def get_team_points(
 
     return { "points": point_total }
 
-@app.get("/fruit_teams/teams/{team_id}/members", tags=["FruitTeams"])
+@router.get("/fruit_teams/teams/{team_id}/members")
 async def get_team_members(
     team_id: Annotated[str, Path(pattern=TEAM_ID_REGEX)]
 ):
@@ -55,14 +58,14 @@ async def get_team_members(
     
     return { "members": list(team_members.keys()) }
 
-@app.get("/fruit_teams/teams/{team_id}/prefix", tags=["FruitTeams"])
+@router.get("/fruit_teams/teams/{team_id}/prefix")
 async def get_team_prefix(
     team_id: Annotated[str, Path(pattern=TEAM_ID_REGEX)]
 ):
     prefix = db[team_id]["prefix"]
     return { "prefix": prefix }
 
-@app.put("/fruit_teams/teams/{team_id}/{player_uuid}", tags=["FruitTeams"])
+@router.put("/fruit_teams/teams/{team_id}/{player_uuid}")
 async def add_team_member(
     team_id: Annotated[str, Path(pattern=TEAM_ID_REGEX)],
     player_uuid: Annotated[str, Path(pattern=PLAYER_UUID_REGEX)]
@@ -72,21 +75,21 @@ async def add_team_member(
         raise PLAYER_ALREADY_EXISTS
     return {"Result": "Success"}
 
-@app.delete("/fruit_teams/teams/{team_id}/{player_uuid}", tags=["FruitTeams"])
+@router.delete("/fruit_teams/teams/{team_id}/{player_uuid}")
 async def remove_team_member(
     team_id: Annotated[str, Path(pattern=TEAM_ID_REGEX)],
     player_uuid: Annotated[str, Path(pattern=PLAYER_UUID_REGEX)]
 ):
     raise NOT_IMPLEMENTED
 
-@app.get("/fruit_teams/teams/{team_id}/{player_uuid}", tags=["FruitTeams"])
+@router.get("/fruit_teams/teams/{team_id}/{player_uuid}")
 async def get_team_member_points(
     team_id: Annotated[str, Path(pattern=TEAM_ID_REGEX)],
     player_uuid: Annotated[str, Path(pattern=PLAYER_UUID_REGEX)]
 ):
     return NOT_IMPLEMENTED
 
-@app.patch("/fruit_teams/teams/{team_id}/{player_uuid}/{points}", tags=["FruitTeams"])
+@router.patch("/fruit_teams/teams/{team_id}/{player_uuid}/{points}")
 async def set_team_member_points(
     team_id: Annotated[str, Path(pattern=TEAM_ID_REGEX)],
     player_uuid: Annotated[str, Path(pattern=PLAYER_UUID_REGEX)],
@@ -97,20 +100,20 @@ async def set_team_member_points(
 
 # === Team Management ===
 
-@app.post("/fruit_teams/teams/{team_id}", tags=["FruitTeams"])
+@router.post("/fruit_teams/teams/{team_id}")
 async def create_team(
     team_id: Annotated[str, Path(pattern=TEAM_ID_REGEX)],
     prefix: Annotated[str, Query(pattern=TEAM_PREFIX_REGEX)]
 ):
     return NOT_IMPLEMENTED
 
-@app.get("/fruit_teams/random_team/{player_uuid}", tags=["FruitTeams"])
+@router.get("/fruit_teams/random_team/{player_uuid}")
 async def add_to_random_team(
     player_uuid: Annotated[str, Path(pattern=PLAYER_UUID_REGEX)]
 ):
     return NOT_IMPLEMENTED
 
-@app.delete("/fruit_teams/teams/{team_id}", tags=["FruitTeams"])
+@router.delete("/fruit_teams/teams/{team_id}")
 async def delete_team(
     team_id: Annotated[str, Path(pattern=TEAM_ID_REGEX)]
 ):
@@ -118,10 +121,10 @@ async def delete_team(
 
 # === Leaderboards ===
 
-@app.get("/fruit_teams/leaderboard/top_10_teams", tags=["FruitTeams"])
+@router.get("/fruit_teams/leaderboard/top_10_teams")
 async def get_top_10_teams():
     return NOT_IMPLEMENTED
 
-@app.get("/fruit_teams/leaderboard/top_10_players", tags=["FruitTeams"])
+@router.get("/fruit_teams/leaderboard/top_10_players")
 async def get_top_10_players():
     return NOT_IMPLEMENTED
