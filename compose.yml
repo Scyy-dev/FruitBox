@@ -1,6 +1,6 @@
 services:
   app:
-    build: app/
+    build: src/app
     ports:
       - 8000:8000
   db:
