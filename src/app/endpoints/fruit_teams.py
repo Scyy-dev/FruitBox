@@ -1,11 +1,10 @@
 from typing import Annotated
 from fastapi import APIRouter, HTTPException, Path, Query
 
-from constants import PLAYER_UUID_REGEX
-
 # === Regex Patterns === 
-TEAM_ID_REGEX = "^[a-zA-Z]\\w{4,31}$"
-TEAM_PREFIX_REGEX = "^[a-zA-Z]\\w{1,5}$"
+PLAYER_UUID_REGEX = r"[a-f0-9]{32}"
+TEAM_ID_REGEX = r"^[a-zA-Z]\w{4,31}$"
+TEAM_PREFIX_REGEX = r"^[a-zA-Z]\w{1,5}$"
 
 # === Errors ===
 NOT_IMPLEMENTED = HTTPException(status_code=500, detail="Endpoint not implemented")
