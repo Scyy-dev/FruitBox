@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from .endpoints import fruit_teams, fruit_points
+from endpoints import fruit_teams, fruit_points
 
 app = FastAPI()
 

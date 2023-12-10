@@ -1,7 +1,7 @@
 from typing import Annotated
 from fastapi import APIRouter, HTTPException, Path, Query
 
-from ..constants import PLAYER_UUID_REGEX
+from constants import PLAYER_UUID_REGEX
 
 # === Regex Patterns === 
 TEAM_ID_REGEX = "^[a-zA-Z]\\w{4,31}$"
