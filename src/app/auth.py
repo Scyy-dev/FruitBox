@@ -27,7 +27,7 @@ class User(BaseModel):
     password: str
     
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="auth/token")
 
 async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)]):
     if token in fake_user_db:
