@@ -28,11 +28,11 @@ INVALID_PASSWORD_CREDENTIALS = HTTPException(
 fake_user_db = {
     "admin": {
         "username": "admin",
-        "password": "$2b$12$5WbUfUMaeAW13y.AsQqod.kEs8Z/hUkc8Fpr7WI8Cud7uWjM9UoQC"
+        "hashed_password": "$2b$12$5WbUfUMaeAW13y.AsQqod.kEs8Z/hUkc8Fpr7WI8Cud7uWjM9UoQC"
     },
     "user1": {
         "username": "user1",
-        "password": "$2b$12$5WbUfUMaeAW13y.AsQqod.kEs8Z/hUkc8Fpr7WI8Cud7uWjM9UoQC"
+        "hashed_password": "$2b$12$5WbUfUMaeAW13y.AsQqod.kEs8Z/hUkc8Fpr7WI8Cud7uWjM9UoQC"
     }
 }
 
