@@ -42,10 +42,13 @@ async def auth_user(current_user: Annotated[str, Depends(get_current_user)]):
 @router.post("/token")
 async def login(form_data: Annotated[OAuth2PasswordRequestForm, Depends()]):
     user_data = fake_user_db.get(form_data.username)
+    print("user_data:", user_data)
     if not user_data:
         raise HTTPException(status_code=400, detail="Incorrect username or password")
     user = User(**user_data)
+    print("user:", user)
     hashed_password = hash_password(form_data.password)
+    print("hashed pw:", hashed_password)
     if not hashed_password == user.password:
         raise HTTPException(status_code=400, detail="Incorrect username or password")
 
