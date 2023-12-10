@@ -8,15 +8,17 @@ router = APIRouter(
     tags=["auth"]
 )
 
+TEMP_SALT = "temp-salt"
+
 # Intentionally insecure database for testing purposes
 fake_user_db = {
     "admin": {
         "username": "admin",
-        "password": "admin"
+        "password": TEMP_SALT + "admin" + TEMP_SALT
     },
     "user1": {
         "username": "user1",
-        "password": "user1"
+        "password": TEMP_SALT + "user1" + TEMP_SALT
     }
 }
 
@@ -33,7 +35,7 @@ async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)]):
         return User(**user_data)
 
 async def hash_password(password):
-    return "temp_salt" + password + "temp_salt"
+    return TEMP_SALT + password + TEMP_SALT
 
 @router.get("/")
 async def auth_user(current_user: Annotated[str, Depends(get_current_user)]):
