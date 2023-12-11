@@ -1,10 +1,7 @@
 from typing import Optional
 from os import environ
-import dotenv
 
 from sqlmodel import Field, SQLModel, Session, create_engine
-
-dotenv.load_dotenv()
 
 class User(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
