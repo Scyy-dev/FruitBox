@@ -1,0 +1,3 @@
+CREATE USER docker;
+CREATE DATABASE fruitdb;
+GRANT ALL PRIVILEGES ON DATABASE fruitdb TO docker;

@@ -1,5 +1,6 @@
 from typing import Annotated
-from fastapi import APIRouter, HTTPException, Path, Query
+from fastapi import APIRouter, HTTPException, Path, Query, Security
+from auth import get_current_user
 
 # === Regex Patterns === 
 PLAYER_UUID_REGEX = r"[a-f0-9]{32}"
@@ -13,7 +14,8 @@ PLAYER_ALREADY_EXISTS = HTTPException(status_code=404, detail="Player already ex
 # === FastAPI Router ===
 router = APIRouter(
     prefix="/fruit_teams",
-    tags=["fruit_teams"]
+    tags=["fruit_teams"],
+    dependencies=[Security(get_current_user)]
 )
 
 # Random UUIDs for testing

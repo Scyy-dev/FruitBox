@@ -3,5 +3,10 @@ services:
     build: src/app
     ports:
       - 8000:8000
+    environment:
+      - DB_CONNECTION_STRING=${DB_CONNECTION_STRING}
   db:
     image: mysql
+    environment:
+      - MYSQL_RANDOM_ROOT_PASSWORD=yes
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
