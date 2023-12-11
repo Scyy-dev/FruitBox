@@ -5,6 +5,12 @@ services:
       - 8000:8000
     environment:
       - DB_CONNECTION_STRING=${DB_CONNECTION_STRING}
+    depends_on:
+      db:
+        condition: service_healthy
+    links:
+     - db
+    
   db:
     image: mysql
     environment:
@@ -17,3 +23,8 @@ services:
       - 3306:3306
     expose:
       - 3306
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3306"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
