@@ -13,10 +13,11 @@ class User(SQLModel, table=True):
 
 engine = create_engine(environ["DB_CONNECTION_STRING"], echo=True)
 
-if __name__ == "__main__":
+def main():
     SQLModel.metadata.create_all(engine)
     user1 = User(id=None, username="admin", hashed_password="$2b$12$5WbUfUMaeAW13y.AsQqod.kEs8Z/hUkc8Fpr7WI8Cud7uWjM9UoQC")
     with Session(engine) as session:
         session.add(user1)
 
-
+if __name__ == "__main__":
+    main()
