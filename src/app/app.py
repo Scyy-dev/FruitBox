@@ -23,6 +23,8 @@ async def init_db():
     connection_url = os.environ["DB_CONNECTION_STRING"]
     while True:
         try:
+            print("attempting DB connection...")
             return FruitDB(connection_url)
-        except Exception:
+        except Exception as e:
+            print("Connection failed:", e)
             await asyncio.sleep(2)
