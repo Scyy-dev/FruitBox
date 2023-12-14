@@ -1,4 +1,5 @@
 from sqlmodel import SQLModel, Session, create_engine  # noqa: F401 - used as part of import
+from tenacity import retry, wait_fixed, stop_after_attempt
 
 from . import models
 
@@ -8,6 +9,7 @@ class FruitDB():
         self.init_engine(conn_str)
         SQLModel.metadata.create_all(self._engine)
 
+    @retry(wait=wait_fixed(2), stop=stop_after_attempt(30))
     def init_engine(self, conn_str):
         self._engine = create_engine(conn_str, echo=True)
 
