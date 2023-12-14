@@ -4,11 +4,9 @@ import os
 from fastapi import FastAPI
 import auth
 from endpoints import fruit_teams, fruit_points
-from db.db1 import FruitDB
+from db.db import db
 
 app = FastAPI()
-
-db = None
 
 app.include_router(auth.router)
 app.include_router(fruit_teams.router)
@@ -16,7 +14,7 @@ app.include_router(fruit_points.router)
 
 @asynccontextmanager
 async def lifecycle(app: FastAPI):
-    db = await init_db()
+    await init_db()
     yield
 
 async def init_db():
@@ -24,7 +22,8 @@ async def init_db():
     while True:
         try:
             print("attempting DB connection...")
-            return FruitDB(connection_url)
+            db.connect(connection_url)
+            break
         except Exception as e:
             print("Connection failed:", e)
             await asyncio.sleep(2)
