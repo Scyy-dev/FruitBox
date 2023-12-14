@@ -9,8 +9,7 @@ class User(SQLModel, table=True):
     username: str
     password: str
 
-connection_url = os.environ["DB_CONNECTION_STRING"]
-
-engine = create_engine(connection_url, echo=True)
-
-SQLModel.metadata.create_all(engine)
+class FruitDB():
+    def __init__(self, connection_url) -> None:
+        engine = create_engine(connection_url, echo=True)
+        SQLModel.metadata.create_all(engine)
