@@ -1,30 +1,24 @@
+version: '3.8'
+
 services:
   app:
     build: src/app
     ports:
       - 8000:8000
+    depends_on:
+      - db
     environment:
       - DB_CONNECTION_STRING=${DB_CONNECTION_STRING}
-    depends_on:
-      db:
-        condition: service_healthy
-    links:
-     - db
     
   db:
-    image: mysql
+    image: mysql:latest
+    ports:
+      - 3306:3306
     environment:
       - MYSQL_RANDOM_ROOT_PASSWORD=yes
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
       - MYSQL_DATABASE=${MYSQL_DATABASE}
       - MYSQL_USER=${MYSQL_USER}
       - MYSQL_PASSWORD=${MYSQL_PASSWORD}
-    ports:
-      - 3306:3306
     expose:
       - 3306
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:3306"]
-      interval: 30s
-      timeout: 10s
-      retries: 5
