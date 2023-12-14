@@ -5,12 +5,12 @@ from . import models
 
 class FruitDB():
 
-    async def __init__(self, conn_str):
-        await self.init_engine(conn_str)
+    def __init__(self, conn_str):
+        self.init_engine(conn_str)
         SQLModel.metadata.create_all(self._engine)
 
     @retry(wait=wait_fixed(2), stop=stop_after_attempt(30))
-    async def init_engine(self, conn_str):
+    def init_engine(self, conn_str):
         self._engine = create_engine(conn_str, echo=True)
 
     async def test_db(self):
